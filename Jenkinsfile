@@ -10,9 +10,9 @@ node {
     }
 
     stage('Push image') {
-        sh "docker ps -a --format '{{.Names}}' | grep 'pythonapp' | xargs -r docker stop || true"
-        sh "docker ps -a --format '{{.Names}}' | grep 'pythonapp' | xargs -r docker rm || true"
-        
+        sh ("docker ps -a --format '{{.Names}}' | grep ${application} | xargs -r docker stop || true")
+        sh ("docker ps -a --format '{{.Names}}' | grep ${application} | xargs -r docker rm || true")
+
         withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
             app.push()
             app.push("latest")
