@@ -17,7 +17,7 @@ node {
     }
 
     stage('Deploy') {
-        sh ("docker rm $(docker stop $(docker ps -a -q --filter ancestor=${dockerhubaccountid}/${application} --format=\"{{.ID}}\"))")
+        sh ("docker rm $(docker stop $(docker ps -a -q --filter ancestor=${application} --format=\"{{.ID}}\"))")
         sh ("docker run --name ${application} -d -p 3333:3333 ${dockerhubaccountid}/${application}:${BUILD_NUMBER}")
     }
 
