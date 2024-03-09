@@ -17,10 +17,10 @@ node {
     }
 
     stage('Deploy') {
-        sh ("docker ps -a --format '{{.Names}}' | grep ${dockerhubaccountid}/${application} | xargs -r docker stop || true")
-        sh ("docker ps -a --format '{{.Names}}' | grep ${dockerhubaccountid}/${application} | xargs -r docker rm || true")
-        
-        sh ("docker run --name ${dockerhubaccountid}/${application} -d -p 3333:3333 ${dockerhubaccountid}/${application}:${BUILD_NUMBER}")
+        sh ("docker ps -a --format '{{.Names}}' | grep ${dockerhubaccountid}-${application} | xargs -r docker stop || true")
+        sh ("docker ps -a --format '{{.Names}}' | grep ${dockerhubaccountid}-${application} | xargs -r docker rm || true")
+
+        sh ("docker run --name ${dockerhubaccountid}-${application} -d -p 3333:3333 ${dockerhubaccountid}/${application}:${BUILD_NUMBER}")
     }
 
     stage('Remove old images') {
