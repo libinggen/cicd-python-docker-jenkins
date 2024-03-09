@@ -10,8 +10,8 @@ node {
     }
 
     stage('Push image') {
-        sh ("docker ps -q --filter \"name=${application}\" | grep -q . && docker stop ${application} && docker rm ${application} || true")
-        
+        sh ("docker ps -q --filter \"ancestor=${dockerhubaccountid}/${application}\" | xargs -r docker stop")
+
         withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
             app.push()
             app.push("latest")
