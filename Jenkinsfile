@@ -17,7 +17,7 @@ node {
     }
 
     stage('Deploy') {
-        sh ("docker ps -q --filter \"ancestor=libinggenjp/pythonapp\" | xargs -r docker stop")
+        sh ("docker ps -q --filter \"ancestor=pythonapp\" | xargs -r docker stop")
         sh ("docker run --name ${application} -d -p 3333:3333 ${dockerhubaccountid}/${application}:${BUILD_NUMBER}")
     }
 
