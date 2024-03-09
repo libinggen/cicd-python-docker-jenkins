@@ -10,8 +10,6 @@ node {
     }
 
     stage('Push image') {
-        sh ("docker ps -q --filter \"ancestor=${dockerhubaccountid}/${application}\" | xargs -r docker stop")
-
         withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
             app.push()
             app.push("latest")
@@ -19,6 +17,7 @@ node {
     }
 
     stage('Deploy') {
+        sh ("docker rm $(docker stop $(docker ps -a -q --filter ancestor=${dockerhubaccountid}/${application} --format=\"{{.ID}}\"))")
         sh ("docker run --name ${application} -d -p 3333:3333 ${dockerhubaccountid}/${application}:${BUILD_NUMBER}")
     }
 
