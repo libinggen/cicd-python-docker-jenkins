@@ -6,13 +6,7 @@ node {
     }
 
     stage('Build image') {
-        steps {
-            script {
-                withEnv(["PATH+DOCKER=/usr/local/bin"]) {
-                    sh 'docker build -t libinggen/pythonapp:3 .'
-                }
-            }
-        }
+        app = docker.build("${dockerhubaccountid}/${application}:${BUILD_NUMBER}")
     }
 
     stage('Push image') {
